@@ -21,6 +21,7 @@ class Wiki:
 
 async def wiki_search(message: types.Message):
     query_string = message.text.split(' ', maxsplit=1)[1]
+    await message.delete()
     Wiki.titles_list = wiki_util.search(query_string)
     if Wiki.titles_list:
         await message.delete()
@@ -33,6 +34,7 @@ async def wiki_search(message: types.Message):
 
 
 async def summary_for_selected_search(callback: types.CallbackQuery):
+    await callback.message.delete()
     pre_summary = wiki_util.summary(Wiki.titles_list[int(callback.data.split(' ')[1])])
     Wiki.prepared_summary = pre_summary.split('\n\n\n')
     if len(Wiki.prepared_summary[0]) < 1400:
@@ -49,6 +51,7 @@ async def summary_for_selected_search(callback: types.CallbackQuery):
 
 
 async def next_chunk_summary(callback: types.CallbackQuery):
+    await callback.message.delete()
     if Wiki.prepared_summary:
         if len(Wiki.prepared_summary[0]) < 1400:
             await callback.message.answer(Wiki.prepared_summary.pop(0),
@@ -65,6 +68,7 @@ async def next_chunk_summary(callback: types.CallbackQuery):
 
 
 async def splited_chunk_summary(callback: types.CallbackQuery):
+    await callback.message.delete()
     if len(Wiki.splited_chunk) > 1:
         await callback.message.answer(Wiki.splited_chunk.pop(0),
                                       reply_markup=InlineKeyboardMarkup().

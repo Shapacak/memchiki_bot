@@ -1,2 +1,3 @@
 from keybords.client_kb import searched_markup
-from keybords.admin_kb import admin_keyboard
+from keybords.admin_kb import admin_keyboard, get_tag_select_kb
+from keybords.difficult_kb import select_difficult_kb
